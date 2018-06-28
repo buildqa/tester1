@@ -16,8 +16,8 @@ function runstep {
 
 # runstep ./configure ${config_flags}
 # runstep make -j4
-# runstep make build
-make build
-# runstep make install
-make install
+# runstep (cd ./src && make build)
+(cd ./src && make build)
+# runstep (cd ./src && make install)
+(cd ./src && make install)
 

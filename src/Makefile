@@ -1,14 +1,16 @@
 
 os:=$(shell uname -s | tr -s '[A-Z]' '[a-z]')
 
-.PHONY: build install
+# .PHONY: build install
 
 all: build install
 
-build:
+FORCE:
+
+build: FORCE
 	@echo "Build is done"
 
-install:
+install: FORCE
 ifeq ($(os),linux)
 	# mkdir -p ../install
 	(cd ../install && rm -f linux.tgz && tar zcpf linux.tgz ./linux)
