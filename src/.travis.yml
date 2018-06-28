@@ -1,0 +1,65 @@
+# sudo: required
+
+language: cpp
+
+compiler: gcc
+
+cache:
+  - apt
+  - ccache
+
+matrix:
+  include:
+  - os: osx
+  - os: linux
+
+# addons:
+#   apt:
+#     packages:
+#      - build-essential
+#      - libtool
+#      - automake
+#      - gfortran
+#      - libglu1-mesa-dev
+#      - libfreetype6-dev
+#      - uuid-dev
+#      - libxmu-dev
+#      - libxmu-headers
+#      - libxi-dev
+#      - libx11-dev
+#      - libxt-dev
+#      - libxaw7-dev
+#      - liblapack-dev
+#      - tcsh
+#      - curl
+#      - git
+#      - libxml2-utils
+
+# before_install:
+#   # on osx use brew to install autotools and compiler
+#   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+#       brew update ;
+#       brew install libtool ;
+#       brew install automake ;
+#       brew cask uninstall oclint ;
+#       brew install gcc49 ;
+#       brew postinstall gcc49 ;
+#     fi
+
+# install:
+#  # install pre-built packages needed to compile freesurfer
+#  - ./travis/packages.sh
+
+script:
+  # configure and compile freesurfer (removedfor this example)
+  # test doing dake build then install step via script
+  - travis_wait 30 ./travis/build.sh
+
+deploy:
+  provider: releases
+  api_key: "GITHUB OAUTH TOKEN"
+  file: "./install/darwin.tgz"
+  skip_cleanup: true
+  on:
+    tags: true
+
