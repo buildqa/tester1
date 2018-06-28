@@ -1,4 +1,4 @@
-#!/usr/bin/env bash -x
+#!/usr/bin/env bash
 
 #
 # script to run the travis build step
@@ -16,6 +16,8 @@ function runstep {
 
 # runstep ./configure ${config_flags}
 # runstep make -j4
-runstep make build
-runstep make install
+# runstep make build
+make build
+# runstep make install
+make install
 
