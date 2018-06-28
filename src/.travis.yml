@@ -61,9 +61,11 @@ script:
 
 deploy:
   provider: releases
-  api_key: "d29201fb9ece06e2e940d0ce9e554cead889b60a"
+  github-token: $GITHUB_TOKEN
   file: "./install/darwin.tgz"
   skip_cleanup: true
   on:
     tags: true
+    branch: master
+
 
