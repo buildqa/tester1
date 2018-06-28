@@ -1,8 +1,18 @@
 # sudo: required
 
+# blocklist
+
+# safelist
 branches:
-   only:
-   - /.*/
+ only:
+ - master
+
+# except:
+# - gh-pages
+
+#  only:
+#  - gh-pages
+#  - /.*/
 
 language: cpp
 
