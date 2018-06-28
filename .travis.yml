@@ -67,7 +67,7 @@ matrix:
 script:
   # configure and compile freesurfer (removedfor this example)
   # test doing dake build then install step via script
-  - travis_wait 30 ./travis/build.sh
+  ./travis/build.sh
 
 deploy:
   provider: releases
