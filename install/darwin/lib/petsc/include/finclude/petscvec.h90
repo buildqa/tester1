@@ -1,0 +1,49 @@
+!
+!
+!  Additional Vec include file for use of PETSc with Fortran 90/HPF
+!
+#if !defined (PETSC_AVOID_DECLARATIONS)
+
+      Interface 
+        Subroutine VecGetArrayF90(v,array,ierr)
+          PetscScalar, pointer :: array(:)
+          PetscErrorCode ierr
+          Vec     v
+        End Subroutine
+      End Interface
+
+      Interface 
+        Subroutine VecRestoreArrayF90(v,array,ierr)
+          PetscScalar, pointer :: array(:)
+          PetscErrorCode ierr
+          Vec     v
+        End Subroutine
+      End Interface
+
+! -------------------------------------------------------------
+
+      Interface 
+        Subroutine VecDuplicateVecsF90(v,m,vs,ierr)
+          Vec, pointer :: vs(:)
+          PetscInt m
+          PetscErrorCode ierr
+          Vec     v
+        End Subroutine
+      End Interface
+!
+!  Question: should VecDestroyVecsF90() take the m argument since
+! the array of vectors already knows how long it is? Yes, to 
+! match calling sequence for C/C++.
+!
+      Interface 
+        Subroutine VecDestroyVecsF90(vs,m,ierr)
+          Vec, pointer :: vs(:)
+          PetscInt m
+          PetscErrorCode ierr
+        End Subroutine
+      End Interface
+
+#endif
+!
+!     End of Vec Fortran 90 include file for the PETSc package
+!
