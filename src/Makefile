@@ -17,7 +17,7 @@ ifeq ($(os),linux)
 	(ls -l ../install/linux.tgz)
 else ifeq ($(os),darwin)
 	# mkdir -p ../install
-	(cd ../install && rm -f darwin.tgz && tar zcpf darwin.tgz ./darwin)
+	(cd ../install && rm -f darwin.tgz && tar zcpf darwin_new_name.tgz ./darwin)
 	(ls -l ../install/darwin.tgz)
 endif
 
