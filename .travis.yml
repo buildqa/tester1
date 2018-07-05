@@ -76,6 +76,7 @@ before_deploy:
   # works
   # - git tag "$(date +'%Y%m%d%H%M%S')"
   # Cannot clobber pre-existing tag
+  # - git tag "$(date +'%Y%m%d')"
   - git tag "$(date +'DATE: %Y-%m-%d TIME: %R')"
 
 
