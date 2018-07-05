@@ -75,6 +75,7 @@ before_deploy:
   - git config --local user.email "buildqa@contbay.com"
   - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
 
+
 # but allow overwritting the results
 deploy:
   provider: releases
