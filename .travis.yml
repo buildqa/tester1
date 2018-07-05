@@ -69,9 +69,17 @@ script:
   # test doing dake build then install step via script
   travis_wait 30 ./src/build.sh
 
+# add a timestamp tage before deploy
+before_deploy:
+  - git config --local user.name "buildqa"
+  - git config --local user.email "buildqa@contbay.com"
+  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+
+# but allow overwritting the results
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
+  overwrite: true
   file: "./install/darwin.tgz"
   skip_cleanup: true
 
