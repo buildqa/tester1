@@ -76,7 +76,7 @@ before_deploy:
   # works
   # - git tag "$(date +'%Y%m%d%H%M%S')"
   # Cannot clobber pre-existing tag
-  # - git tag "$(date +'%Y-%m-%d')"
+  - git tag "$(date +'DATE: %Y-%m-%d TIME: %R')"
 
 
 # but allow overwritting the results
@@ -87,8 +87,8 @@ deploy:
   file: "./install/darwin.tgz"
   skip_cleanup: true
   # try below in conjnction with commenting out git tag above
-  drafts: true
-  on:
-    tags: false
+  # drafts: true
+  # on:
+  #  tags: false
 
 
