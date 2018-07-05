@@ -73,7 +73,7 @@ script:
 before_deploy:
   - git config --local user.name "buildqa"
   - git config --local user.email "buildqa@contbay.com"
-  - git tag "$(date +'%Y%m%d%H%M%S')-$(git log --format=%h -1)"
+  - git tag "$(date +'%Y%m%d%H%M%S')"
 
 
 # but allow overwritting the results
