@@ -77,6 +77,8 @@ before_deploy:
   # - git tag "$(date +'%Y%m%d%H%M%S')"
   # Cannot clobber pre-existing tag
   # - git tag "$(date +'%Y%m%d')"
+  # use "git hub" wrapper
+  - git hub delete "$(date +'DATE: %Y-%m-%d TIME: %R')"
   - git tag "$(date +'DATE: %Y-%m-%d TIME: %R')"
 
 
