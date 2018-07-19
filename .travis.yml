@@ -73,13 +73,7 @@ script:
 before_deploy:
   - git config --local user.name "buildqa"
   - git config --local user.email "buildqa@contbay.com"
-  # works
-  # - git tag "$(date +'%Y%m%d%H%M%S')"
-  # Cannot clobber pre-existing tag
-  # - git tag "$(date +'%Y%m%d')"
-  # use "git hub" wrapper
-  - git hub delete "$(date +'DATE: %Y-%m-%d TIME: %R')"
-  - git tag "$(date +'DATE: %Y-%m-%d TIME: %R')"
+  - git tag "$(date +'%Y%m%d%H%M%S')"
 
 
 # but allow overwritting the results
@@ -89,9 +83,5 @@ deploy:
   overwrite: true
   file: "./install/darwin.tgz"
   skip_cleanup: true
-  # try below in conjnction with commenting out git tag above
-  # drafts: true
-  # on:
-  #  tags: false
 
 
