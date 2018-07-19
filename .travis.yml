@@ -73,6 +73,9 @@ script:
 before_deploy:
   - git config --local user.name "buildqa"
   - git config --local user.email "buildqa@contbay.com"
+  # Use hub to delete any previous version
+  - hub release delete "$(date +'%Y%-m%-d_%H.%M.%S')"
+  # Add new version
   - git tag "$(date +'%Y%-m%-d_%H.%M.%S')"
 
 
