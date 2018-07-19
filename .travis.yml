@@ -49,16 +49,12 @@ matrix:
 #      - git
 #      - libxml2-utils
 
-# before_install:
-#   # on osx use brew to install autotools and compiler
-#   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
-#       brew update ;
-#       brew install libtool ;
-#       brew install automake ;
-#       brew cask uninstall oclint ;
-#       brew install gcc49 ;
-#       brew postinstall gcc49 ;
-#     fi
+before_install:
+  # on osx use brew to install autotools and compiler
+  - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
+       brew update ;
+       brew install hub;
+    fi
 
 # install:
 #  # install pre-built packages needed to compile freesurfer
