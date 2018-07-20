@@ -71,12 +71,10 @@ script:
 before_deploy:
   - git config --local user.name "buildqa"
   - git config --local user.email "buildqa@contbay.com"
-  # Use hub to delete any previous version, but allow failures
-  - hub release delete "$(date +'%Y%-m%-d_%H.%M.%S')" || true
-  # - hub release delete "$(date +'%Y-%m-%d')" || true
-  # Add new version
-  - git tag "$(date +'%Y%-m%-d_%H.%M.%S')"
-  # - git tag "$(date +'%Y-%m-%d')"
+  # create year-month-day tag, allow to fail if already exists ( >1 build per day)
+  - hub release create -m "Travis CI build" "$(date +'%Y-%m-%d')" || true
+  # upload assets to existing tar
+  - bash -x ./upload-github-release-asset.sh owner=buildqa repo=tester1 github_api_token=33244f19472866045cc89ad52cff875c4c04dafd filename=./install/darwin.tgz tag="$(date +'%Y-%m-%d')"
 
 
 # but allow overwritting the results
