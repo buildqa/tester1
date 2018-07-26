@@ -74,14 +74,15 @@ before_deploy:
   # create year-month-day tag, allow to fail if already exists ( >1 build per day)
   - hub release create -m "Travis CI build" "$(date +'%Y-%m-%d')" || true
   # upload assets to existing tar
-  # - bash -x ./upload-github-release-asset.sh owner=buildqa repo=tester1 github_api_token=$GITHUB_TOKEN_EXT_M filename=./install/darwin.tgz tag="$(date +'%Y-%m-%d')"
+  # - bash -x ./upload-github-release-asset.sh owner=buildqa repo=tester1 github_api_token=$GITHUB_TOKEN filename=./install/darwin.tgz tag="$(date +'%Y-%m-%d')"
 
 
 # but allow overwritting the results
 deploy:
   provider: releases
   # api_key: $GITHUB_TOKEN_IN_M
-  api_key: $GITHUB_TOKEN_EXT_M
+  # api_key: $GITHUB_TOKEN_EXT_M
+  api_key: $GITHUB_TOKEN
   overwrite: true
   file: "./install/darwin.tgz"
   skip_cleanup: true
