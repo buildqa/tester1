@@ -67,8 +67,17 @@ release_id="$id"
 
 # Get ID of the asset based on given filename.
 id=""
-eval $(echo "$response" | grep -C1 "name.:.\+$filename" | grep -m 1 "id.:" | grep -w id | tr : = | tr -cd '[[:alnum:]]=')
-assert_id="$id"
+# eval $(echo "$response" | grep -C1 "name.:.\+$filename" | grep -m 1 "id.:" | grep -w id | tr : = | tr -cd '[[:alnum:]]=')
+
+# get raw curl output
+eval $(echo "$response") >! curl.output
+# fname=$(basename $filename)
+fname="darwin.tgz"
+assert_id=$(python ./id_asset.py curl.output $fname)
+
+# exit 0
+
+# assert_id="$id"
 if [ "$assert_id" = "" ]; then
     echo "No need to overwrite asset"
 else
