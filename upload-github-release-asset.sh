@@ -24,7 +24,8 @@ set -x
 
 owner="buildqa"
 repo="tester1"
-filename="./install/darwin_2018-07-25_18.42.tgz"
+# filename="./install/darwin_2018-07-25_18.42.tgz"
+filename="./install/darwin.tgz"
 github_api_token="$GITHUB_TOKEN"
 tag=$(date +'%Y-%m-%d')
 
