@@ -1,5 +1,7 @@
 #!/usr/bin/env bash
 
+set -x
+
 #
 # script to run the travis build step
 # this lets us handle build failures better
