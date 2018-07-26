@@ -79,8 +79,8 @@ deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   overwrite: true
-  file: "./install/darwin.tgz"
+  # file: "./install/darwin.tgz"
+  script: upload-github-release-asset.sh
   skip_cleanup: true
-  - bash -x upload-github-release-asset.sh
 
 
