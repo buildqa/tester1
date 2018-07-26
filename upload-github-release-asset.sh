@@ -25,7 +25,8 @@ set -e
 xargs=$(which gxargs || which xargs)
 
 # Validate settings.
-[ "$TRACE" ] && set -x
+# [ "$TRACE" ] && set -x
+set -x
 
 CONFIG=$@
 
