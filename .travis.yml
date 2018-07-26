@@ -80,7 +80,8 @@ before_deploy:
 # but allow overwritting the results
 deploy:
   provider: releases
-  api_key: $GITHUB_TOKEN
+  # api_key: $GITHUB_TOKEN_IN_M
+  api_key: $GITHUB_TOKEN_EXT_M
   overwrite: true
   file: "./install/darwin.tgz"
   skip_cleanup: true
