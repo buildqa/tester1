@@ -20,13 +20,21 @@
 # upload-github-release-asset.sh github_api_token=TOKEN owner=stefanbuck repo=playground tag=v0.1.0 filename=./build.zip
 #
 
+set -x
+
+owner="buildqa"
+repo="tester1"
+filename="./install/darwin.tgz"
+github_api_token="$GITHUB_TOKEN"
+tag=$(date +'%Y-%m-%d')
+
 # Check dependencies.
-set -e
+# set -e
 xargs=$(which gxargs || which xargs)
 
 # Validate settings.
 # [ "$TRACE" ] && set -x
-set -x
+# set -x
 
 CONFIG=$@
 
