@@ -78,6 +78,7 @@ before_deploy:
   # - bash -x upload-github-release-asset.sh
   - ./delete_asset.py buildqa tester1 "$(date +'%Y%-m%-d')" darwin.tgz add
 
+
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
