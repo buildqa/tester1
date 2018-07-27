@@ -76,13 +76,13 @@ before_deploy:
   # upload assets to existing tar
   # - ./upload-github-release-asset.sh owner=buildqa repo=tester1 filename=./install/darwin.tgz tag="$(date +'%Y-%m-%d')" github_api_token="$GITHUB_TOKEN"
   # - bash -x upload-github-release-asset.sh
+  - ./delete_asset.py buildqa tester1 "$(date +'%Y%-m%-d')" darwin.tgz add
 
 deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  overwrite: true
-  # file: "./install/darwin.tgz"
-  script: ./delete_asset.py buildqa tester1 "$(date +'%Y%-m%-d')" darwin.tgz add
-  skip_cleanup: true
+  # provider: releases
+  # api_key: $GITHUB_TOKEN
+  # overwrite: true
+  # script: ./delete_asset.py buildqa tester1 "$(date +'%Y%-m%-d')" darwin.tgz add
+  # skip_cleanup: true
 
 
