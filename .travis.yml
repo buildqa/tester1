@@ -79,10 +79,10 @@ before_deploy:
   - ./delete_asset.py buildqa tester1 "$(date +'%Y%-m%-d')" darwin.tgz add
 
 deploy:
-  # provider: releases
-  # api_key: $GITHUB_TOKEN
-  # overwrite: true
-  # script: ./delete_asset.py buildqa tester1 "$(date +'%Y%-m%-d')" darwin.tgz add
-  # skip_cleanup: true
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  overwrite: true
+  script: ./delete_asset.py buildqa tester1 "$(date +'%Y%-m%-d')" darwin.tgz add
+  skip_cleanup: true
 
 
