@@ -97,7 +97,8 @@ def main():
 
       if (cnt_asset == 0):
          if debug: print("No URL found to match file %s") % asset_name
-         sys.exit(1)
+         # sys.exit(1)
+         sys.exit(0)
 
       if asset_url and (cnt_asset != 0):
          url_line = re.sub(r'^[ ]*url: ','',asset_url.strip('\n\r'))
