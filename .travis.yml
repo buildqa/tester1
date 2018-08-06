@@ -70,18 +70,18 @@ before_deploy:
   - git config --local user.name "buildqa"
   - git config --local user.email "buildqa@contbay.com"
   # create year-month-day tag, allow to fail if already exists ( >1 build per day)
-  - hub release create -m "Travis CI build" "$(date +'%Y-%m-%d')" || true
+  # - hub release create -m "Travis CI build" "$(date +'%Y-%m-%d')" || true
   - git tag "$(date '+%Y-%m-%d')" || true
-  - ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" delete all
+  - python manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" delete all
   # upload assets
-  - ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin_"$(date '+%Y-%m-%d')"*.tgz add
+  - python manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin_"$(date '+%Y-%m-%d')"*.tgz add
 
 
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   overwrite: true
-  script: ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin_"$(date '+%Y-%m-%d')"*.tgz add
+  script: python manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin_"$(date '+%Y-%m-%d')"*.tgz add
   skip_cleanup: true
 
 
