@@ -3,7 +3,8 @@ os:=$(shell uname -s | tr -s '[A-Z]' '[a-z]')
 
 # .PHONY: build install
 
-tstamp:=$(shell date "+%Y-%m-%d_%H.%M.%S")
+# tstamp:=$(shell date "+%Y-%m-%d_%H.%M.%S")
+tstamp:=$(shell date "+%Y-%m-%d_%H%M%S")
 
 all: build install
 
@@ -23,7 +24,8 @@ ifeq ($(os),linux)
 else ifeq ($(os),darwin)
 	# mkdir -p ../install
 	# (cd ../install && rm -f darwin.tgz && tar zcpf darwin_$(tstamp).tgz ./darwin tstamp.txt)
-	(cd ../install && rm -f darwin.tgz && tar zcpf darwin.tgz ./darwin tstamp.txt)
+	# (cd ../install && rm -f darwin.tgz && tar zcpf darwin.tgz ./darwin tstamp.txt)
+	(cd ../install && rm -f darwin_$(tstamp).tgz && tar zcpf darwin_$(tstamp).tgz ./darwin tstamp.txt)
 	ls -l ../install/darwin*.tgz
 endif
 	@cat ../install/tstamp.txt

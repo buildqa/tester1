@@ -123,6 +123,8 @@ def main():
       curl_geturl_cmd = "curl -sH " + "'" + "Authorization: token " + github_token + "'" + " " + "https://api.github.com/repos/" + git_userid + "/" + git_repo_name + "/releases/tags/" + release_tag + " | grep upload_url | awk '{print $2}' | sed 's;\";;g' | sed 's;,;;g' "
       if debug: print("curl_geturl_cmd = %s") % curl_geturl_cmd
 
+      sys.exit(0)
+
       curl_rawurl_output = run_cmd(curl_geturl_cmd,False,True) 
       if debug: print("curl_rawurl_output = %s") % curl_rawurl_output
 
@@ -133,6 +135,8 @@ def main():
       name_string = "name=" + asset_name
       curl_upload_url_2 = re.sub('name?label',name_string,curl_upload_url_1)
       if debug: print("curl_upload_url_2 = %s") % curl_upload_url_2
+
+      sys.exit(0)
 
       # Use upload URL to form curl command to upload file
       #
