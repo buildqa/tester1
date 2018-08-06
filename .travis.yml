@@ -72,18 +72,16 @@ before_deploy:
   # create year-month-day tag, allow to fail if already exists ( >1 build per day)
   # - hub release create -m "Travis CI build" "$(date +'%Y-%m-%d')" || true
   - git tag "$(date '+%Y-%m-%d')" || true
-  - python manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" delete all
+  - ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" delete all
   # upload assets
-  - python manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin_1.tgz add
-  - python manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin_2.tgz add
+  - files=(darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
 
 
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   overwrite: true
-  script: python manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin_1.tgz add
-  script: python manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin_2.tgz add
+  script: files=(darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
   skip_cleanup: true
 
 
