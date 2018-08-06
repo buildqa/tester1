@@ -60,6 +60,10 @@ before_install:
 #  # install pre-built packages needed to compile freesurfer
 #  - ./travis/packages.sh
 
+# do not use default time zone
+before_script:
+  - export TZ=America/New_York
+
 script:
   # configure and compile freesurfer (removedfor this example)
   # test doing dake build then install step via script
