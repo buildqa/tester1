@@ -70,15 +70,10 @@ before_deploy:
   - git config --local user.name "buildqa"
   - git config --local user.email "buildqa@contbay.com"
   # create year-month-day tag, allow to fail if already exists ( >1 build per day)
-  # - hub release create -m "Travis CI build" "$(date +'%Y-%m-%d')" || true
+  - hub release create -m "Travis CI build" "$(date +'%Y-%m-%d')" || true
   - git tag "$(date '+%Y-%m-%d')" || true
-  # - ./delete_asset.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin.tgz delete
-  # delete any assets that currently exist for this release
   - ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" delete all
-  # upload assets to existing tar
-  # - ./upload-github-release-asset.sh owner=buildqa repo=tester1 filename=./install/darwin.tgz tag="$(date +'%Y-%m-%d')" github_api_token="$GITHUB_TOKEN"
-  # - bash -x upload-github-release-asset.sh
-  # - ./delete_asset.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin.tgz add
+  # upload assets
   - ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin_"$(date '+%Y-%m-%d')"*.tgz add
 
 
@@ -86,7 +81,6 @@ deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   overwrite: true
-  # script: ./delete_asset.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin.tgz add
   script: ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" darwin_"$(date '+%Y-%m-%d')"*.tgz add
   skip_cleanup: true
 
