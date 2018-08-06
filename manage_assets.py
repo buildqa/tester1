@@ -141,9 +141,9 @@ def add_asset(asset,userid,repo_name,tag):
    #
    # curl '' --data-binary @./foo2.tgz -H 'Authorization: token <github token>' -H 'Content-Type: application/octet-stream' 'https://uploads.github.com/repos/buildqa/tester1/releases/12129991/assets?name=foo2.tgz'
 
-   # note use of hardcoded ./install path prefix - assume uploads under <top of tree>/install
+   # REMOVED hardcoded ./install path prefix - assume uploads under <top of tree>/install
 
-   curl_upload_cmd = "curl " + "''" + " --data-binary @./install/" + asset + " -H " + "'" + "Authorization: token " + github_token + "'" + " -H " + "'" + "Content-Type: application/octet-stream" + "'" + " " + "'" + curl_upload_url_2 + "'"
+   curl_upload_cmd = "curl " + "''" + " --data-binary @" + asset + " -H " + "'" + "Authorization: token " + github_token + "'" + " -H " + "'" + "Content-Type: application/octet-stream" + "'" + " " + "'" + curl_upload_url_2 + "'"
    if debug: print("curl_upload_cmd = %s") % curl_upload_cmd
 
    curl_upload_output = run_cmd(curl_upload_cmd,False,True) 
