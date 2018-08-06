@@ -74,14 +74,14 @@ before_deploy:
   - git tag "$(date '+%Y-%m-%d')" || true
   - ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" delete all
   # upload assets
-  - files=(darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
+  - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
 
 
 deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   overwrite: true
-  script: files=(darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
+  script: files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
   skip_cleanup: true
 
 
