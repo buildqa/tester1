@@ -25,7 +25,9 @@ else ifeq ($(os),darwin)
 	# mkdir -p ../install
 	# (cd ../install && rm -f darwin.tgz && tar zcpf darwin_$(tstamp).tgz ./darwin tstamp.txt)
 	# (cd ../install && rm -f darwin.tgz && tar zcpf darwin.tgz ./darwin tstamp.txt)
-	(cd ../install && rm -f darwin_$(tstamp).tgz && tar zcpf darwin_$(tstamp).tgz ./darwin tstamp.txt)
+	# (cd ../install && rm -f darwin_$(tstamp).tgz && tar zcpf darwin_$(tstamp).tgz ./darwin tstamp.txt)
+	(cd ../install && rm -f darwin_1.tgz && tar zcpf darwin_1.tgz ./darwin tstamp.txt)
+	(cd ../install && rm -f darwin_2.tgz && tar zcpf darwin_2.tgz ./darwin tstamp.txt)
 	ls -l ../install/darwin*.tgz
 endif
 	@cat ../install/tstamp.txt
