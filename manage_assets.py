@@ -38,9 +38,10 @@ def main():
       asset_action = sys.argv[4]
       asset_name = sys.argv[5]
 
-   if (asset_action != "delete") and (asset_action != "add"):
-      print("Must provide argument for asset action as 'delete' or 'add'.")
-      sys.exit(1)
+   if "delete" not in sys.argv:
+      if "add" not in sys.argv:
+         print("Must provide argument for asset action as 'delete' or 'add'.")
+         sys.exit(1)
    if (asset_action != "add") and not asset_name:
       print("Must provide a file (asset name) to add to the release with action 'add'.")
       sys.exit(1)
