@@ -53,6 +53,7 @@ before_install:
   # on osx use brew to install autotools and compiler
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
        brew update ;
+       brew install github-release;
        brew install hub;
     fi
 
