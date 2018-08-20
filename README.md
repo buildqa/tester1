@@ -21,3 +21,7 @@ assets can all be done via curl comands (manage_assets.py).
 Finally, a command to prune release (releases.py) looks to prune old releases.  It has a (pre)set count of releases that
 should be kept, and any (older) releases exceeding the count to save will be deleted.  (Assets are deleted for each release
 but currently not the tag).
+
+See the .travis.yml file for top level steps.  Currently the git release command may only be avalable on the Mac, so
+the build will always fail for linux.
+
