@@ -26,25 +26,30 @@ def main():
 
    # manage_assets.py buildqa tester1 untagged-b6410855dff21b5deabb add darwin_2018-08-06_125953.tgz
    # <prog> <git userid> <repo name> <release tag> <action={delete,add}> <optional name of specific asset to delete or add>
-   usage_msg = "$ %s <git userid> <repo name> <release tag> <action={delete,add}> <asset name to replace/add in release | \"all\" to delete all assets > " % (sys.argv[0])
+   usage_msg = "$ %s <git userid> <repo name> <release tag> <action={delete,add,test}> <asset name to delete/add in release | \"all\" to delete all assets > " % (sys.argv[0])
 
-   if not len(sys.argv) != 5:
-      print("Insufficient arguments provided.")
+   if not len(sys.argv) >= 4:
       print("USAGE: %s") % usage_msg
-   else:
-      git_userid = sys.argv[1]
-      git_repo_name = sys.argv[2]
-      release_tag = sys.argv[3]
-      asset_action = sys.argv[4]
-      asset_name = sys.argv[5]
+      sys.exit(1)
+
+   git_userid = sys.argv[1]
+   git_repo_name = sys.argv[2]
+   release_tag = sys.argv[3]
+   asset_action = sys.argv[4]
 
    if "delete" not in sys.argv:
       if "add" not in sys.argv:
-         print("Must provide argument for asset action as 'delete' or 'add'.")
+         if "test" not in sys.argv:
+            print("Must provide argument for asset action as 'delete' or 'add' or 'test'.")
+            print("USAGE: %s") % usage_msg
+            sys.exit(1)
+   if (asset_action == "add" or asset_action == "delete"):
+      if not sys.argv[5]:
+         print("Must provide a file (asset name) action 'add' or 'delete'.")
+         print("USAGE: %s") % usage_msg
          sys.exit(1)
-   if (asset_action != "add") and not asset_name:
-      print("Must provide a file (asset name) to add to the release with action 'add'.")
-      sys.exit(1)
+      else:
+         asset_name = sys.argv[5]
 
    # add named asset from command line
    if (asset_action == "add") and (asset_name):
@@ -52,37 +57,46 @@ def main():
       add_asset(asset_name,git_userid,git_repo_name,release_tag)
       sys.exit(0)
 
-   # delete a single or all assets from a release
-   release_assets = get_assets(release_tag,git_userid,git_repo_name)
+   if (asset_action == "test") and (release_tag):
+      ret_stat = test_tag(git_userid,git_repo_name,release_tag)
+      if ret_stat == True:
+         sys.exit(0)
+      else:
+         sys.exit(1)
 
-   if release_assets:
-      key_list = list(release_assets)
-      if debug: print("key_list = %s") % key_list
-      cnt = 1
-      for asset in key_list:
-         if debug: print("Asset %s has URL %s") % (asset,release_assets[asset])
-         asset_url = release_assets[asset]
-         # delete with asset "all" will delete any assets found in the release
-         # (assets should be deleted before the tag for the release is deleted)
-         if (asset_action == "delete") and (asset_name == "all"):
-            print("Should delete asset %s of %s from release %s: %s") % (cnt,len(key_list),release_tag,asset)
-            delete_asset(asset,asset_url)
-            cnt += 1
+   if not (asset_action == "test"):
 
-      if (asset_action == "delete") and (asset_name != "all"):
-         # delete named asset from command line  
-         if asset_name in key_list:
-            asset_url = release_assets[asset_name]
-            print("Should delete argument asset %s from release %s") % (asset_name,release_tag)
-            delete_asset(asset_name,asset_url)
-         else:
-            print("No asset %s listed to delete for release tag %s... exitting") % (asset_name,release_tag)
-            sys.exit(0)
+      # delete a single or all assets from a release
+      release_assets = get_assets(release_tag,git_userid,git_repo_name)
 
-   else:
-      print("No assets listed for release tag %s... exitting") % (release_tag)
+      if release_assets:
+         key_list = list(release_assets)
+         if debug: print("key_list = %s") % key_list
+         cnt = 1
+         for asset in key_list:
+            if debug: print("Asset %s has URL %s") % (asset,release_assets[asset])
+            asset_url = release_assets[asset]
+            # delete with asset "all" will delete any assets found in the release
+            # (assets should be deleted before the tag for the release is deleted)
+            if (asset_action == "delete") and (asset_name == "all"):
+               print("Should delete asset %s of %s from release %s: %s") % (cnt,len(key_list),release_tag,asset)
+               delete_asset(asset,asset_url)
+               cnt += 1
+
+         if (asset_action == "delete") and (asset_name != "all"):
+            # delete named asset from command line  
+            if asset_name in key_list:
+               asset_url = release_assets[asset_name]
+               print("Should delete argument asset %s from release %s") % (asset_name,release_tag)
+               delete_asset(asset_name,asset_url)
+            else:
+               print("No asset %s listed to delete for release tag %s... exitting") % (asset_name,release_tag)
+               sys.exit(0)
+
+      else:
+         print("No assets listed for release tag %s... exitting") % (release_tag)
  
-   sys.exit(0)
+      sys.exit(0)
 
 
 def run_cmd(cmd,fake=False,report_cmd=False):
@@ -150,6 +164,22 @@ def add_asset(asset,userid,repo_name,tag):
    # curl_upload_output = run_cmd(curl_upload_cmd,True,True) 
    if debug: print("curl_upload_output = %s") % curl_upload_output
 
+
+def test_tag(userid,repo_name,tag):
+
+   # get description of release and all included assets (files) as currently posted on github via rev3 API
+   #
+   # curl -sH 'Authorization: token <github token>' https://api.github.com/repos/buildqa/tester1/releases/tags/2018-07-26
+   curl_query_cmd = "curl -sH " + "'" + "Authorization: token " + github_token + "'" + " " + "https://api.github.com/repos/" + userid + "/" + repo_name + "/releases/tags/" + tag
+   curl_query_output_raw_output = run_cmd(curl_query_cmd,False,True) 
+   curl_query_output = re.sub(r'"','',curl_query_output_raw_output)
+   if re.search('message:',curl_query_output):
+      if re.search('Not Found',curl_query_output):
+         if debug: print("Could not find release with tag %s") % tag
+         return False
+   # only get "message": "Not Found" if tag does not exist
+   else:
+      return True
 
 
 def get_assets(tag,userid,repo_name):
