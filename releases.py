@@ -6,7 +6,7 @@ import platform, commands, operator
 repo = "tester1"
 uid = "buildqa"
 # releases_max = 10  # max number of most recent releases to keep on github
-releases_max = 20  # max number of most recent releases to keep on github
+releases_max = 5  # max number of most recent releases to keep on github
 debug = True
 # debug = False
 
