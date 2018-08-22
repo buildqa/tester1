@@ -50,6 +50,8 @@ matrix:
 #      - libxml2-utils
 
 before_install:
+  # only make release and prune builds on Mac with hub command
+  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then exit 0 ; fi
   # on osx use brew to install autotools and compiler
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
        brew update ;

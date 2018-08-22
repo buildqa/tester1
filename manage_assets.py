@@ -11,7 +11,7 @@ if debug: print("argv = %s") % sys.argv
 if not os.environ['GITHUB_TOKEN']:
    # Note that pushing a file that contains a (raw) personal access or OAUTH token will cause it to be revoked by github
    print("GITHUB_TOKEN for curl access must be defined in environment and entered in developer settings on github")
-   sys.exit(1)
+   sys.exit(2)
 else:
    github_token = os.environ['GITHUB_TOKEN']
 
@@ -30,7 +30,7 @@ def main():
 
    if not len(sys.argv) >= 4:
       print("USAGE: %s") % usage_msg
-      sys.exit(1)
+      sys.exit(2)
 
    git_userid = sys.argv[1]
    git_repo_name = sys.argv[2]
@@ -42,12 +42,12 @@ def main():
          if "test" not in sys.argv:
             print("Must provide argument for asset action as 'delete' or 'add' or 'test'.")
             print("USAGE: %s") % usage_msg
-            sys.exit(1)
+            sys.exit(2)
    if (asset_action == "add" or asset_action == "delete"):
       if not sys.argv[5]:
          print("Must provide a file (asset name) action 'add' or 'delete'.")
          print("USAGE: %s") % usage_msg
-         sys.exit(1)
+         sys.exit(2)
       else:
          asset_name = sys.argv[5]
 
@@ -59,10 +59,12 @@ def main():
 
    if (asset_action == "test") and (release_tag):
       ret_stat = test_tag(git_userid,git_repo_name,release_tag)
-      if ret_stat == True:
-         sys.exit(0)
-      else:
+      if ret_stat == False:
+         # tag does not exist
          sys.exit(1)
+      else:
+         # tag exists
+         sys.exit(0)
 
    if not (asset_action == "test"):
 
@@ -108,7 +110,7 @@ def run_cmd(cmd,fake=False,report_cmd=False):
          return cmd_ret[1]
       else:
          if (report_cmd): print "*** command failed: %s" % (cmd)
-         sys.exit(1)
+         sys.exit(2)
          # return True
          return False
    else:
