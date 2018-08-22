@@ -74,9 +74,7 @@ script:
 before_deploy:
   - git config --local user.name "buildqa"
   - git config --local user.email "buildqa@contbay.com"
-  - ./manage_assets.py buildqa tester1 test "$(date '+%Y-%m-%d')"
-  - TAG_STATUS = $?
-  - echo TAG_STATUS=${TAG_STATUS}
+  - ./manage_assets.py buildqa tester1 test "$(date '+%Y-%m-%d')"; export TAG_STATUS=$?
   - if [ $TAG_STATUS == false ]; then
           hub release create -m "$(date +'%Y-%m-%d')" "$(date +'%Y-%m-%d')";
        else 
