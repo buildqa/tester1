@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env bash -x
 
 ./manage_assets.py buildqa tester1 test "$(date '+%Y-%m-%d')"
 if [ $? == true ]; then
