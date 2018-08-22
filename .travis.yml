@@ -77,15 +77,12 @@ before_deploy:
   - ./manage_assets.py buildqa tester1 test "$(date '+%Y-%m-%d')"
   - TAG_STATUS = $?
   - echo TAG_STATUS=${TAG_STATUS}
-  - if [[ $TAG_STATUS == 1 ]]; then
-       # tag does not exist, so make new release
-       # hub release create -m "$(date +'%Y-%m-%d')" "$(date +'%Y-%m-%d')" || true;
-       hub release create -m "$(date +'%Y-%m-%d')" "$(date +'%Y-%m-%d')";
-       # git tag "$(date '+%Y-%m-%d')" || true;
-    else
-       # delete all assets from existing tag
-       ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" delete all;
-    fi
+  - if [ $TAG_STATUS == false ]; then
+          hub release create -m "$(date +'%Y-%m-%d')" "$(date +'%Y-%m-%d')";
+       else 
+          ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" delete all;
+       fi
+
   # upload assets
   - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
   # prune old releases (assets then its tag) according to build limit in releases.py script
