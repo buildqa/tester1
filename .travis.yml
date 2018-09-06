@@ -88,6 +88,4 @@ deploy:
   overwrite: true
   script: ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" test
   skip_cleanup: true
-  on:
-    tags: true
 
