@@ -78,7 +78,7 @@ before_deploy:
   - git config --local user.email "buildqa@contbay.com"
   - sh -x ./deploy.sh
   # upload assets
-  # - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
+  - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
   # prune old releases (assets then its tag) according to build limit in releases.py script
   - ./releases.py
 
