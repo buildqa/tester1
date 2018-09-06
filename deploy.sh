@@ -64,9 +64,15 @@ if [ "$action" == "delete" ]; then
    elif [ "$release_exists" == "FALSE" ]; then
       echo "Git API reports release $date does not exist so nothing to do for action = delete"
    fi 
+
 elif [ "$action" == "add" ]; then
-   echo "Making new release";
-   # release name the same as tag name
-   hub release create -m "$date" "$date";
+
+   if [ "$release_exists" == "TRUE" ]; then
+      echo "Git API reports release $date already exists so nothing to do for action = add"
+   elif [ "$release_exists" == "FALSE" ]; then
+      echo "Making new release";
+      # release name the same as tag name
+      hub release create -m "$date" "$date";
+   fi
 fi
 

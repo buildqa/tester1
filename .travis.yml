@@ -79,7 +79,8 @@ before_deploy:
   # if it exists, delete the named release and and any assets we can.
   # No date as 2nd arg means use todays date 
   - sh -x ./deploy.sh delete
-  # release already exists - so this just makes an untagged one
+  # must add back after deletion
+  - sh -x ./deploy.sh add
   # FIX ME ? - test here if release already exists
   # - sh -x ./deploy.sh add
   # - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
