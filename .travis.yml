@@ -76,23 +76,23 @@ script:
 before_deploy:
   - git config --local user.name "buildqa"
   - git config --local user.email "buildqa@contbay.com"
-  # if it exists, delete the named release and and any assets we can.
+  # if release exists, delete the named release and and any assets we can.
   # No date as 2nd arg means use todays date 
   - sh -x ./deploy.sh delete
   # must add back after deletion
   - sh -x ./deploy.sh add
-  # FIX ME ? - test here if release already exists
-  # - sh -x ./deploy.sh add
-  - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
+  # prevents auotmoatic hex tag being created in deploy section
+  - git tag -f "$(date '+%Y-%m-%d')"
+  # - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
   # Prune releases in separate cron as might clobber the release just made....
   # - ./releases.py
 
 
-# deploy:
-#   provider: releases
-#   api_key: $GITHUB_TOKEN
-#   overwrite: true
-#   script: ./deploy.sh add
-#   skip_cleanup: true
+deploy:
+  provider: releases
+  api_key: $GITHUB_TOKEN
+  overwrite: true
+  script: files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
+  skip_cleanup: true
 
 
