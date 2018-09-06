@@ -82,10 +82,10 @@ before_deploy:
   - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
 
 
-deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  overwrite: true
-  script: ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" test
-  skip_cleanup: true
+# deploy:
+#  provider: releases
+#  api_key: $GITHUB_TOKEN
+#  overwrite: true
+#  script: ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" test
+#  skip_cleanup: true
 
