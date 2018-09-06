@@ -77,7 +77,7 @@ after_success:
   - git config --local user.name "buildqa"
   - git config --local user.email "buildqa@contbay.com"
   # creating a tag here can only trigger deploy if commit was tagged
-  - git tag -f "$(date '+%Y-%m-%d')" || true
+  # - git tag -f "$(date '+%Y-%m-%d')" || true
   # - ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" delete all
   - ./deploy.sh delete
   - ./deploy.sh add
