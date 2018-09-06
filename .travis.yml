@@ -79,8 +79,9 @@ before_deploy:
   - sh -x ./deploy.sh
   # upload assets
   - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
+  # Do in separate cron, as might clobber the build we just made....
   # prune old releases (assets then its tag) according to build limit in releases.py script
-  - ./releases.py
+  # - ./releases.py
 
 
 deploy:
