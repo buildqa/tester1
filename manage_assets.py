@@ -61,9 +61,11 @@ def main():
       ret_stat = test_tag(git_userid,git_repo_name,release_tag)
       if ret_stat == False:
          # tag does not exist
+         print("release tag %s DOES NOT exist") % release_tag
          sys.exit(1)
       else:
          # tag exists
+         print("release tag %s DOES exist") % release_tag
          sys.exit(0)
 
    if not (asset_action == "test"):
