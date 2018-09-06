@@ -81,6 +81,7 @@ before_deploy:
   - sh -x ./deploy.sh delete
   # add back the release name
   - sh -x ./deploy.sh add
+  - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
   # Prune releases in separate cron as might clobber the release just made....
   # - ./releases.py
 
