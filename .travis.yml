@@ -69,8 +69,11 @@ script:
   # test doing dake build then install step via script
   travis_wait 30 ./src/build.sh
 
-# add a timestamp tage before deploy
-before_deploy:
+# without "deploy" stage cannot run "before deploy" stage, and deploy will generate a hash
+# tag for the release unless tag attribute4 is on which in turn requires the commit itself
+# to be tagged.  So shift before deploy actions to a diferent stae, e.g., after_success
+
+after_success:
   - git config --local user.name "buildqa"
   - git config --local user.email "buildqa@contbay.com"
   # creating a tag here can only trigger deploy if commit was tagged
@@ -81,6 +84,7 @@ before_deploy:
   # upload assets
   - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
 
+# before_deploy:
 
 # deploy:
 #  provider: releases
