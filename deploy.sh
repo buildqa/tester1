@@ -45,6 +45,8 @@ if [ $? == 0 ]; then
    # Comments on stackoverflow seem to indicate source archives can only be deleted on the paid version of github ??
    # https://stackoverflow.com/questions/45240336/how-to-use-github-release-api-to-make-a-release-without-source-code
    hub release delete "$date"
+   # tag will not be found
+   # git tag --delete "$date"
 else
    echo "Making new release";
    # release name the same as tag name
