@@ -83,7 +83,7 @@ before_deploy:
   - sh -x ./deploy.sh add
   # FIX ME ? - test here if release already exists
   # - sh -x ./deploy.sh add
-  # - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
+  - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
   # Prune releases in separate cron as might clobber the release just made....
   # - ./releases.py
 
@@ -92,7 +92,7 @@ deploy:
   provider: releases
   api_key: $GITHUB_TOKEN
   overwrite: true
-  script: files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
+  script: ./deploy.sh add
   skip_cleanup: true
 
 
