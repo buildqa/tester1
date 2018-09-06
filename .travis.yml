@@ -50,12 +50,9 @@ matrix:
 #      - libxml2-utils
 
 before_install:
-  # only make release and prune builds on Mac with hub command
-  - if [[ "$TRAVIS_OS_NAME" == "linux" ]]; then exit 0 ; fi
   # on osx use brew to install autotools and compiler
   - if [[ "$TRAVIS_OS_NAME" == "osx" ]]; then
        brew update ;
-       brew install github-release;
        brew install hub;
     fi
 
@@ -69,23 +66,19 @@ before_script:
 
 script:
   # configure and compile freesurfer (removedfor this example)
-  # test doing fake build then install step via script
+  # test doing dake build then install step via script
   travis_wait 30 ./src/build.sh
 
 # add a timestamp tage before deploy
 before_deploy:
   - git config --local user.name "buildqa"
   - git config --local user.email "buildqa@contbay.com"
-  # if release exists, delete the named release and and any assets we can.
-  # No date as 2nd arg means use todays date 
-  - sh -x ./deploy.sh delete
-  # must add back after deletion
-  - sh -x ./deploy.sh add
-  # prevents auotmoatic hex tag being created in deploy section
-  - git tag -f "$(date '+%Y-%m-%d')"
+  # create year-month-day tag, allow to fail if already exists ( >1 build per day)
+  # - hub release create -m "Travis CI build" "$(date +'%Y-%m-%d')" || true
+  - git tag -f "$(date '+%Y-%m-%d')" || true
+  - ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" delete all
+  # upload assets
   # - files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
-  # Prune releases in separate cron as might clobber the release just made....
-  # - ./releases.py
 
 
 deploy:
@@ -94,5 +87,6 @@ deploy:
   overwrite: true
   script: files=(./install/darwin_2018*.tgz) && ./manage_assets.py buildqa tester1 "$(date '+%Y-%m-%d')" add $files
   skip_cleanup: true
-
+  on:
+    tags: true
 
