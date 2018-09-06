@@ -88,11 +88,11 @@ before_deploy:
   # - ./releases.py
 
 
-deploy:
-  provider: releases
-  api_key: $GITHUB_TOKEN
-  overwrite: true
-  script: ./deploy.sh add
-  skip_cleanup: true
+# deploy:
+#   provider: releases
+#   api_key: $GITHUB_TOKEN
+#   overwrite: true
+#   script: ./deploy.sh add
+#   skip_cleanup: true
 
 
