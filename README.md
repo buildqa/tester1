@@ -47,7 +47,7 @@ hub release delete <release name>
 
 3) use the git tag command to delete the tag (which will also delete the source file archives)
 
-git push --delete origin <release name>
+git push --delete origin \<release name\>
 
 
 As of this writing a "build" simply creates a tar archive whose contents are not used for anything 
@@ -59,10 +59,29 @@ should see in just a few minutes the name of the tar archive asset it change to 
 YEAR_MO_DAY_|HR|MIN|SEC|, i.e., the hours minutes seconds entry will be younger each time the tar file asset is 
 built and uploaded (to the same release).
 
-*** TO DO *** - releases.py still needs to be updated to use deploy.sh
 
-(releases.py) looks to prune old releases.  It has a (pre)set count of releases to keep, and deletes any 
-(older) releases exceeding the count to save.  (Currently does not delete the tag and source archives).
+The releases.py script looks to prune old releases.  It has a (pre)set count of releases to keep, and deletes any 
+(older) releases exceeding the count to save.  In this example, there is only 1 release in the project here,
+so the number of releases to keep is set to zero.  It finds the one release, and then deletes it:
+
+% ./releases.py
+command succeeded: /usr/local/bin/github-release info -u buildqa -r tester1
+Found releases in repo tester1:
+
+release = - 2018-09-07 with tag = 201809072009
+value = 2018-09-07
+key = 201809072009
+
+releases sorted from oldest to newest = ['201809072009']
+There are currently 1 releases
+Should remove 1 releases
+Removing assets for release with tag 201809072009 and key 2018-09-07
+command succeeded: ./manage_assets.py buildqa tester1 2018-09-07 delete all
+Removing release 201809072009 and key 2018-09-07
+command succeeded: /usr/local/bin/hub release delete 2018-09-07
+Removing tag 201809072009 and key 2018-09-07
+command succeeded: git push --delete origin 2018-09-07
+
 
 See the .travis.yml file for top level steps.  Currently this test build has only been setup on the Mac so
 the build may fail for linux.

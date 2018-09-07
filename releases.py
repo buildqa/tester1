@@ -6,9 +6,13 @@ import platform, commands, operator
 repo = "tester1"
 uid = "buildqa"
 # releases_max = 10  # max number of most recent releases to keep on github
-releases_max = 5  # max number of most recent releases to keep on github
+# releases_max = 5
+releases_max = 1
+
 debug = True
 # debug = False
+# fake = True
+fake = False
 
 platform = platform.system()
 
@@ -90,15 +94,27 @@ def main():
          print "Removing assets for release with tag %s and key %s" % (key_delete,value_delete)
          # Before removing release, remove all the assets (we can) for this release via manage_assets.py
          remove_assets_cmd = "./manage_assets.py buildqa tester1 " + value_delete + " delete all"
-         run_cmd(remove_assets_cmd)
-         # run_cmd(remove_assets_cmd,True,True)
+         if not fake:
+            run_cmd(remove_assets_cmd)
+         else:
+            run_cmd(remove_assets_cmd,True,True)
 
-         print "Removing release with tag %s and key %s" % (key_delete,value_delete)
+         print "Removing release %s and key %s" % (key_delete,value_delete)
          # github-release delete -u buildqa -r tester1 -t 20180705
-         # delete_cmd = github_release_binary + " delete -u " + uid + " -r " + repo + " -t " + value_delete
-         delete_cmd = github_release_binary + " release delete " + value_delete
-         run_cmd(delete_cmd)
-         # run_cmd(delete_cmd,True,True)
+         # delete_rel_cmd = github_release_binary + " delete -u " + uid + " -r " + repo + " -t " + value_delete
+         delete_rel_cmd = github_release_binary + " release delete " + value_delete
+         if not fake:
+            run_cmd(delete_rel_cmd)
+         else:
+            run_cmd(delete_rel_cmd,True,True)
+
+         print "Removing tag %s and key %s" % (key_delete,value_delete)
+         # git push --delete origin 2018-09-07
+         delete_tag_cmd = "git push --delete origin" + " " + value_delete
+         if not fake:
+            run_cmd(delete_tag_cmd)
+         else:
+            run_cmd(delete_tag_cmd,True,True)
 
          cnt += 1
    else: 
